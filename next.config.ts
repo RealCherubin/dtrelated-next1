@@ -28,12 +28,6 @@ const nextConfig: NextConfig = {
       };
     }
     
-    // Handle lightningcss native dependency
-    config.externals = config.externals || [];
-    config.externals.push({
-      'lightningcss': 'lightningcss'
-    });
-    
     return config;
   },
 };
