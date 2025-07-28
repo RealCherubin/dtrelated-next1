@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   output: 'export',
   trailingSlash: true,
   // Add base path for GitHub Pages (replace 'your-repo-name' with your actual repo name)
-  basePath: process.env.NODE_ENV === 'production' ? '/your-repo-name' : '',
+  basePath: process.env.NODE_ENV === 'production' ? '/dtrelated-next1' : '',
   // Optimize for large media files
   experimental: {
     optimizePackageImports: ['lucide-react'],
