@@ -18,7 +18,7 @@ export default function BathRoom() {
       <BathroomAudio />
       <div className="relative w-full h-full min-w-max">
         <video
-          src="/bath room.mp4"
+          src="https://d3t3v3en8zpiwh.cloudfront.net/files%20for%20dt%20related/files%20for%20dt%20related/bath%20room.mp4"
           autoPlay
           loop
           muted

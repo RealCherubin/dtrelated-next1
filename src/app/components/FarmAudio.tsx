@@ -36,7 +36,7 @@ export default function FarmAudio() {
   return (
     <audio
       ref={audioRef}
-      src="/sound/farm.wav"
+      src="https://d3t3v3en8zpiwh.cloudfront.net/files%20for%20dt%20related/files%20for%20dt%20related/farm.wav"
       preload="auto"
     />
   );

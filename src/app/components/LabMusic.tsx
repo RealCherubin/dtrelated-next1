@@ -36,7 +36,7 @@ export default function LabMusic() {
   return (
     <audio
       ref={audioRef}
-      src="/sound/lab music.wav"
+      src="https://d3t3v3en8zpiwh.cloudfront.net/files%20for%20dt%20related/files%20for%20dt%20related/lab%20music.wav"
       preload="auto"
     />
   );

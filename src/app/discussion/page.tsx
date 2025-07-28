@@ -18,7 +18,7 @@ export default function Discussion() {
       <DiscussionAudio />
       <div className="relative w-full h-full min-w-max">
         <video
-          src="/discussion.mp4"
+          src="https://d3t3v3en8zpiwh.cloudfront.net/files%20for%20dt%20related/files%20for%20dt%20related/discussion.mp4"
           autoPlay
           loop
           muted

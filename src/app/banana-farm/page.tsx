@@ -18,7 +18,7 @@ export default function BananaFarm() {
       <FarmAudio />
       <div className="relative w-full h-full min-w-max">
         <video
-          src="/banana farm.mp4"
+          src="https://d3t3v3en8zpiwh.cloudfront.net/files%20for%20dt%20related/files%20for%20dt%20related/banana%20farm.mp4"
           autoPlay
           loop
           muted

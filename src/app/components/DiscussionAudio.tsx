@@ -36,7 +36,7 @@ export default function DiscussionAudio() {
   return (
     <audio
       ref={audioRef}
-      src="/sound/disucssion.wav"
+      src="https://d3t3v3en8zpiwh.cloudfront.net/files%20for%20dt%20related/files%20for%20dt%20related/disucssion.wav"
       preload="auto"
     />
   );

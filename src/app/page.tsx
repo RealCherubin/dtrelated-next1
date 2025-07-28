@@ -19,7 +19,7 @@ export default function Home() {
       <div className="relative w-full h-full min-w-max">
         {/* Fullscreen background video */}
         <video
-          src="/lab intro.mp4"
+          src="https://d3t3v3en8zpiwh.cloudfront.net/files%20for%20dt%20related/files%20for%20dt%20related/lab%20intro.mp4"
           autoPlay
           loop
           muted
