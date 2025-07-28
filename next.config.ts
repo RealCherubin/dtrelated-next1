@@ -1,9 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Enable static export for Netlify
+  // Enable static export for GitHub Pages
   output: 'export',
   trailingSlash: true,
+  // Add base path for GitHub Pages (replace 'your-repo-name' with your actual repo name)
+  basePath: process.env.NODE_ENV === 'production' ? '/your-repo-name' : '',
   // Optimize for large media files
   experimental: {
     optimizePackageImports: ['lucide-react'],
