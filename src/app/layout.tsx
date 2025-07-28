@@ -29,10 +29,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {/* Blurry rectangle - positioned independently */}
-        <div className="fixed left-1/2 -translate-x-1/2 top-0 z-5 w-full h-15 backdrop-blur-md bg-white/10 pointer-events-none select-none" />
+        <div className="fixed left-1/2 -translate-x-1/2 top-0 z-10 w-full h-16 backdrop-blur-md bg-white/10 pointer-events-none select-none" />
         
         {/* Logo - positioned independently */}
-        <div className="fixed left-1/2 -translate-x-1/2 top-2.5 z-10 flex items-center justify-center pointer-events-none select-none">
+        <div className="fixed left-1/2 -translate-x-1/2 top-2.5 z-20 flex items-center justify-center pointer-events-none select-none">
           <Image
             src="/dt logo.png"
             alt="Doctor Towels Logo"
