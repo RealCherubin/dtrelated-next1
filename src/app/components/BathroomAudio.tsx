@@ -1,8 +1,9 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function BathroomAudio() {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -12,7 +13,7 @@ export default function BathroomAudio() {
     audio.volume = 0.3; // Start at 30% volume
     audio.loop = true;
     
-    // Auto-play when component mounts
+    // Function to start audio
     const playAudio = async () => {
       try {
         await audio.play();
@@ -22,7 +23,23 @@ export default function BathroomAudio() {
       }
     };
 
+    // Try to auto-play on mount (works on desktop)
     playAudio();
+
+    // Handle user interaction for mobile
+    const handleUserInteraction = () => {
+      if (!hasInteracted) {
+        setHasInteracted(true);
+        playAudio();
+        // Remove listeners after first interaction
+        document.removeEventListener('touchstart', handleUserInteraction);
+        document.removeEventListener('click', handleUserInteraction);
+      }
+    };
+
+    // Add listeners for user interaction
+    document.addEventListener('touchstart', handleUserInteraction, { once: true });
+    document.addEventListener('click', handleUserInteraction, { once: true });
 
     // Cleanup function
     return () => {
@@ -30,8 +47,10 @@ export default function BathroomAudio() {
         audio.pause();
         audio.currentTime = 0;
       }
+      document.removeEventListener('touchstart', handleUserInteraction);
+      document.removeEventListener('click', handleUserInteraction);
     };
-  }, []);
+  }, [hasInteracted]);
 
   return (
     <audio

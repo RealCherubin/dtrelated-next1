@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import FarmAudio from "../components/FarmAudio";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Dot positions for the banana farm
 const dots = [
@@ -15,48 +15,53 @@ const dots = [
 export default function BananaFarm() {
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (video) {
-      // Force autoplay with multiple attempts
-      const playVideo = async () => {
-        try {
-          await video.play();
-        } catch {
-          console.log('Autoplay failed, retrying...');
-          // Retry after a short delay
-          setTimeout(async () => {
-            try {
-              await video.play();
-            } catch {
-              console.log('Autoplay retry failed');
-            }
-          }, 100);
-        }
-      };
+    if (!video) return;
 
-      // Attempt to play when video is loaded
-      if (video.readyState >= 2) {
-        playVideo();
-      } else {
-        video.addEventListener('loadeddata', playVideo);
+    // Function to start video
+    const playVideo = async () => {
+      try {
+        await video.play();
+        console.log('Banana farm video started playing');
+      } catch {
+        console.log('Video play failed, user interaction required');
       }
+    };
 
-      // Also try to play when the page becomes visible
-      const handleVisibilityChange = () => {
-        if (!document.hidden) {
-          playVideo();
-        }
-      };
-      document.addEventListener('visibilitychange', handleVisibilityChange);
+    // Try to auto-play on mount (works on desktop)
+    playVideo();
 
-      return () => {
-        video.removeEventListener('loadeddata', playVideo);
-        document.removeEventListener('visibilitychange', handleVisibilityChange);
-      };
-    }
-  }, []);
+    // Handle user interaction for mobile
+    const handleUserInteraction = () => {
+      if (!hasInteracted) {
+        setHasInteracted(true);
+        playVideo();
+        // Remove listeners after first interaction
+        document.removeEventListener('touchstart', handleUserInteraction);
+        document.removeEventListener('click', handleUserInteraction);
+        document.removeEventListener('mousedown', handleUserInteraction);
+      }
+    };
+
+    // Add listeners for user interaction
+    document.addEventListener('touchstart', handleUserInteraction, { once: true });
+    document.addEventListener('click', handleUserInteraction, { once: true });
+    document.addEventListener('mousedown', handleUserInteraction, { once: true });
+
+    // Cleanup function
+    return () => {
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+      }
+      document.removeEventListener('touchstart', handleUserInteraction);
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('mousedown', handleUserInteraction);
+    };
+  }, [hasInteracted]);
 
   return (
     <>
@@ -65,7 +70,6 @@ export default function BananaFarm() {
         <video
           ref={videoRef}
           src="https://d3t3v3en8zpiwh.cloudfront.net/files%20for%20dt%20related/files%20for%20dt%20related/banana%20farm.mp4"
-          autoPlay
           loop
           muted
           playsInline
