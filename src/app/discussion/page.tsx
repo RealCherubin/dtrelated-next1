@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import DiscussionAudio from "../components/DiscussionAudio";
+import { useEffect, useRef } from "react";
 
 // Dot positions for the top-down table view
 const dots = [
@@ -13,16 +14,64 @@ const dots = [
 
 export default function Discussion() {
   const router = useRouter();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      // Force autoplay with multiple attempts
+      const playVideo = async () => {
+        try {
+          await video.play();
+        } catch {
+          console.log('Autoplay failed, retrying...');
+          // Retry after a short delay
+          setTimeout(async () => {
+            try {
+              await video.play();
+            } catch {
+              console.log('Autoplay retry failed');
+            }
+          }, 100);
+        }
+      };
+
+      // Attempt to play when video is loaded
+      if (video.readyState >= 2) {
+        playVideo();
+      } else {
+        video.addEventListener('loadeddata', playVideo);
+      }
+
+      // Also try to play when the page becomes visible
+      const handleVisibilityChange = () => {
+        if (!document.hidden) {
+          playVideo();
+        }
+      };
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+
+      return () => {
+        video.removeEventListener('loadeddata', playVideo);
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+      };
+    }
+  }, []);
+
   return (
     <>
       <DiscussionAudio />
       <div className="relative w-full h-full min-w-max">
         <video
+          ref={videoRef}
           src="https://d3t3v3en8zpiwh.cloudfront.net/files%20for%20dt%20related/files%20for%20dt%20related/discussion.mp4"
           autoPlay
           loop
           muted
           playsInline
+          preload="auto"
+          disablePictureInPicture
+          disableRemotePlayback
           className="w-auto h-full object-contain z-0"
         />
         {/* Dots overlay */}

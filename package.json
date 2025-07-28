@@ -6,10 +6,11 @@
     "dev": "next dev",
     "prebuild": "npm rebuild",
     "build": "next build",
-    "start": "next start",
+    "start": "npx serve@latest out",
     "lint": "next lint",
     "export": "next build && next export",
-    "deploy": "npm run build && touch out/.nojekyll"
+    "deploy": "npm run build && touch out/.nojekyll",
+    "serve": "npx serve@latest out"
   },
   "dependencies": {
     "lucide-react": "^0.525.0",
